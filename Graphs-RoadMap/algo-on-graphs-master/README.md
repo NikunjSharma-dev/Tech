@@ -13,16 +13,17 @@ This project implements advanced shortest path algorithms on large-scale road an
 - **⚡ Performance**: Handled 1000+ real-world queries with <2s average response time on large graphs.  
 
 ## 📁 Project Structure  
-advanced-shortest-path
-├── data/ # Sample input graphs (road & social networks)
-├── src/ # Source code
-│ ├── dijkstra.cpp
-│ ├── bidirectional_dijkstra.cpp
-│ ├── astar.cpp
-│ └── contraction_hierarchy.cpp
-├── benchmarks/ # Performance analysis
+advanced-shortest-path/
+├── data/                   # Sample input graphs (road & social networks)
+├── src/                    # Source code
+│   ├── dijkstra.cpp
+│   ├── bidirectional_dijkstra.cpp
+│   ├── astar.cpp
+│   └── contraction_hierarchy.cpp
+├── benchmarks/             # Performance analysis
 ├── README.md
-└── requirements.txt # Dependencies
+└── requirements.txt        # Dependencies
+
 
 
 ## 🧪 Algorithms Implemented  
