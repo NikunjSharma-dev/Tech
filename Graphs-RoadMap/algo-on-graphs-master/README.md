@@ -13,7 +13,7 @@ This project implements advanced shortest path algorithms on large-scale road an
 - **⚡ Performance**: Handled 1000+ real-world queries with <2s average response time on large graphs.  
 
 ## 📁 Project Structure  
-advanced-shortest-path/
+advanced-shortest-path
 ├── data/ # Sample input graphs (road & social networks)
 ├── src/ # Source code
 │ ├── dijkstra.cpp
@@ -24,7 +24,6 @@ advanced-shortest-path/
 ├── README.md
 └── requirements.txt # Dependencies
 
-text
 
 ## 🧪 Algorithms Implemented  
 | Algorithm               | Description                          | Use Case          |
@@ -39,13 +38,6 @@ text
 |-----------------------|----------------|-----------------|----------------------|
 | Road Network (Real)   | 1000           | <2s             | CH + A*             |
 | Social Network        | 500            | ~1.5s           | Bi-Directional Dijkstra|
-
-## 🛠️ How to Run  
-git clone https://github.com/yourusername/advanced-shortest-path.git
-cd advanced-shortest-path
-
-Compile/run based on your environment
-text
 
 ## 📚 References  
 1. Contraction Hierarchies – Geisberger et al.  
