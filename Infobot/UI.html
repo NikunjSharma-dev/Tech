@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Fresher Q&A Bot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen flex items-center justify-center">
+
+    <div class="w-full max-w-2xl mx-auto bg-white rounded-xl shadow-2xl p-8 space-y-6">
+        <!-- Header Section -->
+        <div class="text-center">
+            <h1 class="text-4xl font-bold text-gray-800">Ask Me Anything!</h1>
+            <p class="text-gray-500 mt-2">Your friendly guide for IIT Guwahati fresher information.</p>
+        </div>
+
+        <!-- Input Section -->
+        <div class="flex items-center space-x-4">
+            <input type="text" id="questionInput" class="flex-grow p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" placeholder="e.g., What are the hostel facilities?">
+            <button id="askButton" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-lg transition-transform transform hover:scale-105">
+                Ask
+            </button>
+        </div>
+
+        <!-- Response Section -->
+        <div id="responseContainer" class="p-6 bg-gray-50 rounded-lg border border-gray-200 min-h-[150px] flex items-center justify-center">
+             <p id="responseText" class="text-gray-700 text-center">Your answer will appear here...</p>
+             <div id="loadingIndicator" class="hidden animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+        </div>
+    </div>
+
+    <script>
+        // --- DOM Element References ---
+        const questionInput = document.getElementById('questionInput');
+        const askButton = document.getElementById('askButton');
+        const responseContainer = document.getElementById('responseContainer');
+        const responseText = document.getElementById('responseText');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+
+        // --- Event Listeners ---
+        askButton.addEventListener('click', handleAskQuestion);
+        questionInput.addEventListener('keyup', (event) => {
+            if (event.key === 'Enter') {
+                handleAskQuestion();
+            }
+        });
+
+        /**
+         * Handles the logic when the "Ask" button is clicked.
+         */
+        async function handleAskQuestion() {
+            const userQuestion = questionInput.value.trim();
+            if (!userQuestion) {
+                responseText.textContent = 'Please enter a question.';
+                return;
+            }
+
+            // Show loading state
+            responseText.classList.add('hidden');
+            loadingIndicator.classList.remove('hidden');
+            askButton.disabled = true;
+            askButton.classList.add('opacity-50', 'cursor-not-allowed');
+
+            try {
+                const answer = await getAnswerFromLLM(userQuestion);
+                responseText.textContent = answer;
+            } catch (error) {
+                console.error('Error fetching answer:', error);
+                responseText.textContent = 'Sorry, I had trouble finding an answer. This can happen if the API key is missing or invalid. Please check the console for more details.';
+            } finally {
+                // Hide loading state
+                responseText.classList.remove('hidden');
+                loadingIndicator.classList.add('hidden');
+                askButton.disabled = false;
+                askButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                questionInput.value = '';
+            }
+        }
+
+        /**
+         * Fetches an answer from the Gemini LLM.
+         * @param {string} question - The user's question.
+         * @returns {Promise<string>} The generated answer.
+         */
+        async function getAnswerFromLLM(question) {
+            // IMPORTANT: To run this locally, you need a Google AI API Key.
+            // 1. Get your key from Google AI Studio: https://aistudio.google.com/app/apikey
+            // 2. Paste your key below, replacing "YOUR_API_KEY_HERE".
+            const apiKey = "YOUR_API_KEY_HERE"; 
+
+            if (apiKey === "YOUR_API_KEY_HERE") {
+                throw new Error("API key is not set. Please get a key from Google AI Studio and add it to the script.");
+            }
+
+            const context = `
+                Based on the information available at the IIT Guwahati freshers' website (https://iitg.ac.in/freshers/), 
+                answer the following question. Provide a helpful and concise response for a new student.
+            `;
+
+            const prompt = ⁠ ${context}\n\nQuestion: ${question}\n\nAnswer: ⁠;
+
+            let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+            const payload = { contents: chatHistory };
+            const apiUrl = ⁠ https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey} ⁠;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(⁠ API request failed with status ${response.status}: ${errorData.error.message} ⁠);
+                }
+
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    return result.candidates[0].content.parts[0].text;
+                } else {
+                    return "I couldn't generate a response based on the provided information.";
+                }
+            } catch (error) {
+                 console.error("Error calling Gemini API:", error);
+                 throw error; // Re-throw the error to be caught by the caller
+            }
+        }
+    </script>
+</body>
+</html>
