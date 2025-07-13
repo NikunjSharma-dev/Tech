@@ -128,13 +128,9 @@ MIT License – Feel free to remix, rebuild, or rap it up in your style!
 
 ---
 
-## 🔗 Links
+## 🔗 Sample Image
 
-* [Project Demo](https://yourdemo.link)
-* [Live Chat](https://yourbot.link)
-* [Twitter](https://twitter.com/yourhandle)
-* [Blog](https://yourblog.com/nano-gpt-rapper)
-
+<img = Infobot/UI.jpeg>
 ---
 
 ## 💬 Final Mic Drop
