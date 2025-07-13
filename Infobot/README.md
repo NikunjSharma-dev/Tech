@@ -130,7 +130,7 @@ MIT License – Feel free to remix, rebuild, or rap it up in your style!
 
 ## 🔗 Sample Image
 
-![Nano GPT Rapper UI](Infobot/UI.jpeg)
+![Nano GPT Rapper UI](Tech/Infobot/UI.jpeg)
 
 ---
 
