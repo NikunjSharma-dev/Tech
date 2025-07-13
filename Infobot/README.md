@@ -130,7 +130,7 @@ MIT License – Feel free to remix, rebuild, or rap it up in your style!
 
 ## 🔗 Sample Image
 
-<img = Infobot/UI.jpeg>
+![image](Infobot/UI.jpeg)
 ---
 
 ## 💬 Final Mic Drop
